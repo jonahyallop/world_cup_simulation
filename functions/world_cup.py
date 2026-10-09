@@ -3,6 +3,7 @@ import numpy as np
 
 from match import simulate_score
 
+# TODO: MOVE TO CONFIG FILE
 GROUPS = {
     "A": ["Mexico","South Africa","South Korea","Czech Republic"],
     "B": ["Canada","Bosnia and Herzegovina","Qatar","Switzerland"],
@@ -82,8 +83,8 @@ def group_stage(ratings):
 
     winners = []
     runners_up = []
-
     third_place = []
+    tables = []
 
     for group in GROUPS.values():
 
@@ -91,6 +92,8 @@ def group_stage(ratings):
             group,
             ratings
         )
+
+        tables.append(table)
 
         winners.append(ranking[0])
         runners_up.append(ranking[1])
@@ -116,7 +119,7 @@ def group_stage(ratings):
         for x in third_place[:8]
     ]
 
-    return winners, runners_up, best_thirds
+    return winners, runners_up, best_thirds, tables
 
 
 def knockout_match(a, b, ratings):
@@ -136,9 +139,18 @@ def knockout_match(a, b, ratings):
             return b
         
 
+def simulate_group_stage(ratings):
+
+    winners, runners_up, thirds, tables = (
+        group_stage(ratings)
+    )
+
+    return tables
+
+
 def simulate_world_cup(ratings):
 
-    winners, runners_up, thirds = (
+    winners, runners_up, thirds, tables = (
         group_stage(ratings)
     )
 
